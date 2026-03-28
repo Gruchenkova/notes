@@ -1,0 +1,35 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+
+export default function Header() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await authClient.signOut();
+    router.push("/authenticate");
+  }
+
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link
+          href="/dashboard"
+          className="text-xl font-bold text-indigo-600 hover:text-indigo-700 tracking-tight transition-colors"
+        >
+          NextNotes
+        </Link>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+        >
+          Log out
+        </button>
+      </div>
+    </header>
+  );
+}
