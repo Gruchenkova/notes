@@ -17,7 +17,7 @@ function formatDate(iso: string): string {
 export default async function PublicNotePage({ params }: PublicNotePageProps) {
   const { slug } = await params;
 
-  const note = getNoteBySlug(slug);
+  const note = await getNoteBySlug(slug);
   if (!note) notFound();
 
   let doc: TipTapNode;

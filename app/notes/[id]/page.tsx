@@ -24,7 +24,7 @@ export default async function NoteViewPage({ params }: NoteViewPageProps) {
   const session = await auth.api.getSession({ headers: resolvedHeaders });
   if (!session) redirect("/authenticate");
 
-  const note = getNoteById(session.user.id, id);
+  const note = await getNoteById(session.user.id, id);
   if (!note) notFound();
 
   let doc: TipTapNode;

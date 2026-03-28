@@ -29,6 +29,6 @@ export async function POST(req: NextRequest) {
   }
 
   const { title, contentJson } = parsed.data;
-  const note = createNote(session.user.id, title, contentJson);
+  const note = await createNote(session.user.id, title, contentJson);
   return NextResponse.json({ id: note.id }, { status: 201 });
 }

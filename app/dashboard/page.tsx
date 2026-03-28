@@ -17,7 +17,7 @@ export default async function DashboardPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/authenticate");
 
-  const notes = getNotesByUser(session.user.id);
+  const notes = await getNotesByUser(session.user.id);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">

@@ -1,9 +1,9 @@
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-import db from "./db";
+import { pool } from "./db";
 
 export const auth = betterAuth({
-  database: db,
+  database: pool,
   secret: process.env.BETTER_AUTH_SECRET,
   emailAndPassword: {
     enabled: true,

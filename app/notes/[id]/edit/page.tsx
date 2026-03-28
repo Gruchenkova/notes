@@ -14,7 +14,7 @@ export default async function EditNotePage({ params }: EditNotePageProps) {
   const session = await auth.api.getSession({ headers: resolvedHeaders });
   if (!session) redirect("/authenticate");
 
-  const note = getNoteById(session.user.id, id);
+  const note = await getNoteById(session.user.id, id);
   if (!note) notFound();
 
   let initialContent: object;

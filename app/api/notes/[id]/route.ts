@@ -33,7 +33,7 @@ export async function PUT(req: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const note = updateNote(session.user.id, id, parsed.data);
+  const note = await updateNote(session.user.id, id, parsed.data);
   if (!note) {
     return NextResponse.json({ error: "Note not found" }, { status: 404 });
   }
@@ -50,11 +50,11 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const note = getNoteById(session.user.id, id);
+  const note = await getNoteById(session.user.id, id);
   if (!note) {
     return NextResponse.json({ error: "Note not found" }, { status: 404 });
   }
 
-  deleteNote(session.user.id, id);
+  await deleteNote(session.user.id, id);
   return new NextResponse(null, { status: 204 });
 }
