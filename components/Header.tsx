@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
 
   async function handleLogout() {
     await authClient.signOut();
@@ -22,13 +23,15 @@ export default function Header() {
           NextNotes
         </Link>
 
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
-        >
-          Log out
-        </button>
+        {pathname !== "/" && (
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+          >
+            Log out
+          </button>
+        )}
       </div>
     </header>
   );

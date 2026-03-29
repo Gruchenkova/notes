@@ -1,4 +1,18 @@
+"use client";
+
+import { useEffect } from "react";
 import LandingCTA from "@/components/LandingCTA";
+import { authClient } from "@/lib/auth-client";
+
+function AutoLogout() {
+  const { data: session } = authClient.useSession();
+  useEffect(() => {
+    if (session) {
+      authClient.signOut();
+    }
+  }, [session]);
+  return null;
+}
 
 const features = [
   {
@@ -66,6 +80,7 @@ const features = [
 export default function HomePage() {
   return (
     <main>
+      <AutoLogout />
       {/* ── Hero ────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-white">
         {/* Decorative gradient blob */}
