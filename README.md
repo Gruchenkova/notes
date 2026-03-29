@@ -2,6 +2,8 @@
 
 > A distraction-free writing app for people who think in words.
 
+**Live demo:** https://notes-eta-two-88.vercel.app/
+
 NextNotes is my personal pet project — a full-stack notes application where you can write rich-text notes, keep them private, and share the ones that deserve an audience. No bloat, no clutter, just you and your ideas.
 
 ---
