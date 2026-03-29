@@ -7,6 +7,7 @@ import { authClient } from "@/lib/auth-client";
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
 
   async function handleLogout() {
     await authClient.signOut();
@@ -23,7 +24,7 @@ export default function Header() {
           NextNotes
         </Link>
 
-        {pathname !== "/" && (
+        {pathname !== "/" && session && (
           <button
             type="button"
             onClick={handleLogout}
