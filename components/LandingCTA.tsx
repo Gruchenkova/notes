@@ -3,8 +3,18 @@
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
-export default function LandingCTA() {
+export default function LandingCTA({ variant = "default" }: { variant?: "default" | "inverted" }) {
   const { data: session, isPending } = authClient.useSession();
+
+  const primaryClass =
+    variant === "inverted"
+      ? "inline-flex items-center gap-2 px-8 py-3.5 bg-white text-indigo-700 font-semibold rounded-xl hover:bg-indigo-50 transition-colors shadow-lg shadow-indigo-900/20"
+      : "inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200";
+
+  const secondaryClass =
+    variant === "inverted"
+      ? "px-6 py-3.5 text-sm font-medium text-indigo-100 hover:text-white transition-colors"
+      : "px-6 py-3.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors";
 
   if (isPending) {
     return (
@@ -17,10 +27,7 @@ export default function LandingCTA() {
 
   if (session) {
     return (
-      <Link
-        href="/dashboard"
-        className="inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
-      >
+      <Link href="/dashboard" className={primaryClass}>
         Go to your notes
         <svg
           className="w-4 h-4"
@@ -42,10 +49,7 @@ export default function LandingCTA() {
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3">
-      <Link
-        href="/authenticate"
-        className="inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
-      >
+      <Link href="/authenticate" className={primaryClass}>
         Start writing — it&apos;s free
         <svg
           className="w-4 h-4"
@@ -62,10 +66,7 @@ export default function LandingCTA() {
           />
         </svg>
       </Link>
-      <Link
-        href="/authenticate"
-        className="px-6 py-3.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-      >
+      <Link href="/authenticate" className={secondaryClass}>
         Sign in
       </Link>
     </div>

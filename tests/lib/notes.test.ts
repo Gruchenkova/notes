@@ -150,7 +150,7 @@ describe("toNote field mapping", () => {
   });
 
   it("maps all snake_case columns to camelCase fields", () => {
-    const row = { ...baseRow, is_public: 1 as 1, public_slug: "abc123" };
+    const row = { ...baseRow, is_public: 1 as const, public_slug: "abc123" };
     mockQuery.mockReturnValueOnce([row]);
 
     const [note] = getNotesByUser("user-1");
@@ -191,7 +191,7 @@ describe("updateNote", () => {
   });
 
   it("generates a slug when enabling public sharing and no slug exists", () => {
-    const afterUpdate = { ...baseRow, is_public: 1 as 1, public_slug: "generated" };
+    const afterUpdate = { ...baseRow, is_public: 1 as const, public_slug: "generated" };
     mockGet.mockReturnValueOnce(baseRow).mockReturnValueOnce(afterUpdate);
 
     updateNote("user-1", "note-1", { isPublic: true });
@@ -203,8 +203,8 @@ describe("updateNote", () => {
   });
 
   it("preserves an existing slug when re-enabling public sharing", () => {
-    const withSlug = { ...baseRow, is_public: 0 as 0, public_slug: "keep-me" };
-    const afterUpdate = { ...withSlug, is_public: 1 as 1 };
+    const withSlug = { ...baseRow, is_public: 0 as const, public_slug: "keep-me" };
+    const afterUpdate = { ...withSlug, is_public: 1 as const };
     mockGet.mockReturnValueOnce(withSlug).mockReturnValueOnce(afterUpdate);
 
     updateNote("user-1", "note-1", { isPublic: true });
@@ -214,7 +214,7 @@ describe("updateNote", () => {
   });
 
   it("clears the slug and sets is_public = 0 when disabling sharing", () => {
-    const publicRow = { ...baseRow, is_public: 1 as 1, public_slug: "old-slug" };
+    const publicRow = { ...baseRow, is_public: 1 as const, public_slug: "old-slug" };
     mockGet.mockReturnValueOnce(publicRow).mockReturnValueOnce(baseRow);
 
     updateNote("user-1", "note-1", { isPublic: false });
@@ -250,7 +250,7 @@ describe("getNoteBySlug", () => {
   });
 
   it("returns the note when found by public slug", () => {
-    const publicRow = { ...baseRow, is_public: 1 as 1, public_slug: "abc123" };
+    const publicRow = { ...baseRow, is_public: 1 as const, public_slug: "abc123" };
     mockGet.mockReturnValueOnce(publicRow);
 
     const note = getNoteBySlug("abc123");

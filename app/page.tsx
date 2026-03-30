@@ -1,18 +1,4 @@
-"use client";
-
-import { useEffect } from "react";
 import LandingCTA from "@/components/LandingCTA";
-import { authClient } from "@/lib/auth-client";
-
-function AutoLogout() {
-  const { data: session } = authClient.useSession();
-  useEffect(() => {
-    if (session) {
-      authClient.signOut();
-    }
-  }, [session]);
-  return null;
-}
 
 const features = [
   {
@@ -80,7 +66,6 @@ const features = [
 export default function HomePage() {
   return (
     <main>
-      <AutoLogout />
       {/* ── Hero ────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-white">
         {/* Decorative gradient blob */}
@@ -113,7 +98,7 @@ export default function HomePage() {
             Free · No credit card needed · Open to all
           </span>
 
-          <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
             Your thoughts,{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
               beautifully written
@@ -134,22 +119,27 @@ export default function HomePage() {
             {/* Shadow cards stacked behind */}
             <div
               aria-hidden="true"
-              className="absolute inset-x-4 -bottom-3 h-full rounded-2xl border border-gray-100 bg-white shadow-sm"
+              className="absolute inset-x-4 -bottom-3 h-full rounded-2xl border border-gray-100 bg-indigo-50/40 shadow-sm"
             />
             <div
               aria-hidden="true"
-              className="absolute inset-x-8 -bottom-6 h-full rounded-2xl border border-gray-100 bg-white shadow-sm"
+              className="absolute inset-x-8 -bottom-6 h-full rounded-2xl border border-gray-100 bg-violet-50/30 shadow-sm"
             />
 
             {/* Main card */}
             <div className="relative rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-xl">
               {/* Toolbar mockup */}
               <div className="mb-4 flex items-center gap-1 rounded-lg bg-gray-50 px-2 py-1.5">
-                {["B", "I"].map((label) => (
+                {[
+                  { label: "B", extra: "font-bold" },
+                  { label: "I", extra: "italic" },
+                  { label: "U", extra: "underline" },
+                  { label: "S", extra: "line-through" },
+                ].map(({ label, extra }) => (
                   <span
                     key={label}
                     aria-hidden="true"
-                    className="flex h-6 w-6 items-center justify-center rounded text-xs font-bold text-gray-400"
+                    className={`flex h-6 w-6 items-center justify-center rounded text-xs font-bold text-gray-400 ${extra}`}
                   >
                     {label}
                   </span>
@@ -158,7 +148,7 @@ export default function HomePage() {
                   aria-hidden="true"
                   className="mx-0.5 self-stretch w-px bg-gray-200"
                 />
-                {["H1", "H2"].map((label) => (
+                {["H1", "H2", "H3"].map((label) => (
                   <span
                     key={label}
                     aria-hidden="true"
@@ -176,6 +166,19 @@ export default function HomePage() {
                   className="flex h-6 w-6 items-center justify-center rounded font-mono text-xs text-gray-400"
                 >
                   {"<>"}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="flex h-6 w-6 items-center justify-center rounded text-gray-400"
+                >
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="w-3.5 h-3.5" aria-hidden="true">
+                    <circle cx="2" cy="4.5" r="1.5" />
+                    <rect x="5" y="3.75" width="9" height="1.5" rx="0.75" />
+                    <circle cx="2" cy="8" r="1.5" />
+                    <rect x="5" y="7.25" width="9" height="1.5" rx="0.75" />
+                    <circle cx="2" cy="11.5" r="1.5" />
+                    <rect x="5" y="10.75" width="9" height="1.5" rx="0.75" />
+                  </svg>
                 </span>
               </div>
 
@@ -217,7 +220,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Features ────────────────────────────────────────────────────── */}
-      <section className="border-t border-gray-100 bg-gray-50 py-24">
+      <section className="relative border-t border-gray-100 bg-gray-50 py-24">
+        {/* Fade from white at the top to smooth hero transition */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-white to-transparent"
+        />
         <div className="mx-auto max-w-5xl px-6">
           <p className="mb-3 text-center text-xs font-semibold uppercase tracking-widest text-indigo-600">
             Why NextNotes
@@ -230,9 +238,9 @@ export default function HomePage() {
             {features.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-gray-100 transition-shadow hover:shadow-md"
+                className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-gray-100 transition-all hover:shadow-lg hover:ring-indigo-200 hover:-translate-y-0.5"
               >
-                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-50 to-violet-100 text-indigo-600">
                   {feature.icon}
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-gray-900">
@@ -248,16 +256,22 @@ export default function HomePage() {
       </section>
 
       {/* ── Bottom CTA ──────────────────────────────────────────────────── */}
-      <section className="bg-white py-24">
+      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-600 py-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 -top-20 flex justify-center -z-10"
+        >
+          <div className="h-[400px] w-[700px] rounded-full bg-white opacity-5 blur-3xl" />
+        </div>
         <div className="mx-auto max-w-2xl px-6 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-gray-900">
+          <h2 className="mb-4 text-3xl font-bold text-white">
             Ready to clear your head?
           </h2>
-          <p className="mb-9 text-gray-500">
+          <p className="mb-9 text-indigo-100">
             Sign up in seconds and start writing. Your first note is one click
             away.
           </p>
-          <LandingCTA />
+          <LandingCTA variant="inverted" />
         </div>
       </section>
     </main>
